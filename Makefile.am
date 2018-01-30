@@ -6,6 +6,7 @@ EXTRA_DIST = \
   $(NULL)
 
 DISTCLEANFILES = \
+  $(DIST_ARCHIVES) \
   AUTHORS \
   $(NULL)
 
