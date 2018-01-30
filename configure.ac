@@ -50,6 +50,9 @@ AX_CHECK_ENABLE_DEBUG([no],[]
                       [G_DISABLE_ASSERT G_DISABLE_CHECKS G_DISABLE_CAST_CHECKS])
 
 
+AC_USE_SYSTEM_EXTENSIONS
+
+
 dnl ***********************************************************************
 dnl Internationalization
 dnl ***********************************************************************
