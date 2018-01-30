@@ -24,7 +24,10 @@ fi
 
 mkdir -p m4
 
-autoreconf --verbose --force --install || exit 1
+if [ "$(uname)" = "Darwin" ]; then
+	ADDITIONAL_AC_INC="-I /usr/local/opt/gettext/share/aclocal";
+fi
+autoreconf --verbose --force --install $ADDITIONAL_AC_INC || exit 1
 
 cd "$olddir"
 if [ "$NOCONFIGURE" = "" ]; then
