@@ -46,4 +46,17 @@ GITIGNOREFILES = \
   INSTALL \
   $(NULL)
 
+sbin_PROGRAMS =
+
+################################################################################
+# LocationManager daemon
+################################################################################
+
+sbin_PROGRAMS += \
+  src/LocationManager
+
+src_LocationManager_SOURCES = \
+  src/main.c \
+  $(NULL)
+
 -include $(top_srcdir)/git.mk
