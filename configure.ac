@@ -107,6 +107,7 @@ dnl Process .in Files
 dnl ***********************************************************************
 AC_CONFIG_FILES([
   Makefile
+  include/LocationManager-version.h
   po/Makefile.in
 ],[],
 [API_VERSION='$API_VERSION'])

@@ -50,6 +50,20 @@ GITIGNOREFILES = \
 sbin_PROGRAMS =
 
 ################################################################################
+# LocationManager headers
+################################################################################
+
+lmincdir = $(includedir)/LocationManager
+lminc_HEADERS = \
+  include/LocationManager-version.h \
+  include/LocationManager.h \
+  $(NULL)
+
+EXTRA_DIST += \
+  include/LocationManager-version.h.in \
+  $(NULL)
+
+################################################################################
 # LocationManager daemon
 ################################################################################
 
