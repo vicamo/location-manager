@@ -155,7 +155,21 @@ sbin_PROGRAMS += \
   src/LocationManager
 
 src_LocationManager_SOURCES = \
+  src/lm-log.c \
+  src/lm-log.h \
   src/main.c \
+  $(NULL)
+src_LocationManager_CFLAGS = \
+  $(LM_CFLAGS) \
+  -I$(top_srcdir) \
+  -I$(top_srcdir)/include \
+  -I$(top_builddir)/include \
+  -I$(top_srcdir)/liblm-glib \
+  -I$(top_builddir)/liblm-glib \
+  $(NULL)
+src_LocationManager_LDADD = \
+  $(LM_LIBS) \
+  liblm-glib/liblm-glib.la \
   $(NULL)
 
 -include $(top_srcdir)/git.mk

@@ -92,6 +92,10 @@ AX_CHECK_COMPILE_FLAG([-std=gnu11],
 dnl ***********************************************************************
 dnl Check for required packages
 dnl ***********************************************************************
+PKG_CHECK_MODULES(LM, [glib-2.0])
+PKG_CHECK_MODULES(LIBSYSTEMD, [libsystemd >= 209],
+                  [have_libsystemd=yes], [have_libsystemd=no])
+
 PKG_CHECK_MODULES(LIBLM_GLIB, [glib-2.0
                                gio-2.0])
 
@@ -101,6 +105,38 @@ dnl Initialize Libtool
 dnl ***********************************************************************
 LT_PREREQ([2.2])
 LT_INIT
+
+
+dnl-----------------------------------------------------------------------------
+dnl systemd journal support
+dnl
+
+AC_ARG_WITH(systemd-journal,
+            AS_HELP_STRING([--with-systemd-journal=no|yes|auto],
+                           [Enable systemd journal support [[default=auto]]]),,
+            [with_systemd_journal=auto])
+
+if test "x$with_systemd_journal" = "xauto"; then
+    if test "x$have_libsystemd" = "xyes"; then
+        with_systemd_journal=yes
+    else
+        with_systemd_journal=no
+    fi
+fi
+
+case $with_systemd_journal in
+    yes)
+        if test "x$have_libsystemd" = "xno"; then
+            AC_MSG_ERROR(libsystemd development headers are required)
+        fi
+        AC_DEFINE(WITH_SYSTEMD_JOURNAL, 1, [Define if you want systemd journal support])
+        ;;
+    *)
+        with_systemd_journal=no
+        ;;
+esac
+
+AM_CONDITIONAL(WITH_SYSTEMD_JOURNAL, test "x$with_systemd_journal" = "xyes")
 
 
 dnl ***********************************************************************
