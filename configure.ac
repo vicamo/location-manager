@@ -92,7 +92,8 @@ AX_CHECK_COMPILE_FLAG([-std=gnu11],
 dnl ***********************************************************************
 dnl Check for required packages
 dnl ***********************************************************************
-PKG_CHECK_MODULES(LOCATION_MANAGER, [gio-2.0 >= 2.50])
+PKG_CHECK_MODULES(LIBLM_GLIB, [glib-2.0
+                               gio-2.0])
 
 
 dnl ***********************************************************************

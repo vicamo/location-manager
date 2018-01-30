@@ -49,6 +49,7 @@ GITIGNOREFILES = \
   INSTALL \
   $(NULL)
 
+lib_LTLIBRARIES =
 sbin_PROGRAMS =
 
 ################################################################################
@@ -62,11 +63,74 @@ xmldir = $(datadir)/dbus-1/interfaces
 xml_DATA = $(XMLS)
 
 ################################################################################
+# liblm-glib
+################################################################################
+
+liblm_glibincdir = $(includedir)/liblm-glib
+liblm_glibinc_HEADERS = \
+  liblm-glib/liblm-glib.h \
+  liblm-glib/lm-errors-types.h \
+  $(NULL)
+
+lib_LTLIBRARIES += liblm-glib/liblm-glib.la
+liblm_glib_liblm_glib_la_SOURCES = \
+  liblm-glib/lm-errors-quarks.c \
+  liblm-glib/lm-errors-types.c \
+  $(NULL)
+liblm_glib_liblm_glib_la_CFLAGS = \
+  $(LIBLM_GLIB_CFLAGS) \
+  -I$(top_srcdir) \
+  -I$(top_srcdir)/include \
+  -I$(top_builddir)/include \
+  -I$(top_srcdir)/liblm-glib \
+  -I$(top_builddir)/liblm-glib \
+  -Wno-unused-function \
+  -Wno-float-equal \
+  -Wno-shadow \
+  $(NULL)
+liblm_glib_liblm_glib_la_LIBADD = \
+  $(LIBLM_GLIB_LIBS) \
+  $(NULL)
+
+# Error types & quarks
+liblm-glib/lm-errors-types.h: Makefile.am $(top_srcdir)/include/LocationManager-errors.h $(top_srcdir)/liblm-glib/lm-errors.h.template
+	$(AM_V_GEN) $(GLIB_MKENUMS) \
+	  --fhead "#ifndef __LM_ERRORS_TYPES_H__\n#define __LM_ERRORS_TYPES_H__\n" \
+	  --template $(top_srcdir)/liblm-glib/lm-errors.h.template \
+	  --ftail "#endif /* __LM_ERRORS_TYPES_H__ */\n" \
+	  $(top_srcdir)/include/LocationManager-errors.h > $@
+
+liblm-glib/lm-errors-types.c: Makefile.am $(top_srcdir)/include/LocationManager-errors.h $(top_srcdir)/liblm-glib/lm-errors.c.template liblm-glib/lm-errors-types.h
+	$(AM_V_GEN) $(GLIB_MKENUMS) \
+	  --fhead "#include <LocationManager.h>\n#include \"lm-errors-types.h\"\n" \
+	  --template $(top_srcdir)/liblm-glib/lm-errors.c.template \
+	  $(top_srcdir)/include/LocationManager-errors.h > $@
+
+liblm-glib/lm-errors-quarks.c: Makefile.am $(top_srcdir)/include/LocationManager-errors.h $(top_srcdir)/liblm-glib/lm-errors-quarks.c.template $(top_builddir)/include/LocationManager-names.h liblm-glib/lm-errors-types.h
+	$(AM_V_GEN) $(GLIB_MKENUMS) \
+	  --fhead "#include <LocationManager.h>\n#include \"lm-errors-types.h\"\n" \
+	  --template $(top_srcdir)/liblm-glib/lm-errors-quarks.c.template \
+	  $(top_srcdir)/include/LocationManager-errors.h > $@
+
+EXTRA_DIST += \
+  liblm-glib/lm-errors.h.template \
+  liblm-glib/lm-errors.c.template \
+  liblm-glib/lm-errors-quarks.c.template \
+  $(NULL)
+
+CLEANFILES += \
+  liblm-glib/lm-errors-quarks.c \
+  liblm-glib/lm-errors-types.c \
+  liblm-glib/lm-errors-types.h \
+  $(NULL)
+
+################################################################################
 # LocationManager headers
 ################################################################################
 
 lmincdir = $(includedir)/LocationManager
 lminc_HEADERS = \
+  include/LocationManager-errors.h \
   include/LocationManager-names.h \
   include/LocationManager-version.h \
   include/LocationManager.h \

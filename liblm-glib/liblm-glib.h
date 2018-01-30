@@ -1,5 +1,5 @@
 /*
- * LocationManager Interface Specification
+ * liblm -- Access modem status & information from glib applications
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -16,26 +16,20 @@
  * Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA 02110-1301 USA.
  *
- * Copyright (C) 2008 - 2009 Novell, Inc.
- * Copyright (C) 2009 - 2013 Red Hat, Inc.
- * Copyright (C) 2011 - 2013 Google, Inc.
- * Copyright (C) 2011 - 2013 Lanedo Gmbh
+ * Copyright (C) 2011 - 2012 Google, Inc.
  */
 
-#ifndef _LOCATION_MANAGER_H_
-#define _LOCATION_MANAGER_H_
+#ifndef _LIBLM_GLIB_H_
+#define _LIBLM_GLIB_H_
 
-#define __LOCATION_MANAGER_H_INSIDE__
+#define __LIBLM_GLIB_H_INSIDE__
 
-/* Public header with DBus Interface, Method, Signal and Property names */
-#include <LocationManager-names.h>
+/* LocationManager generic headers */
+#include <LocationManager.h>
 
-/* Public header with errors */
-#include <LocationManager-errors.h>
+/* liblm-glib headers */
 
-/* Public header with version info */
-#include <LocationManager-version.h>
+/* generated */
+#include <lm-errors-types.h>
 
-#undef __LOCATION_MANAGER_H_INSIDE__
-
-#endif /*  _LOCATION_MANAGER_H_ */
+#endif /* _LIBLM_GLIB_H_ */
