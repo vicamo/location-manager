@@ -5,6 +5,8 @@ EXTRA_DIST = \
   COPYING.LIB \
   $(NULL)
 
+CLEANFILES =
+
 DISTCLEANFILES = \
   $(DIST_ARCHIVES) \
   AUTHORS \
@@ -50,16 +52,34 @@ GITIGNOREFILES = \
 sbin_PROGRAMS =
 
 ################################################################################
+# DBus Introspection files
+################################################################################
+
+XSLTPROC = xsltproc --xinclude --nonet
+XMLS = $(wildcard $(top_srcdir)/introspection/*.xml)
+
+xmldir = $(datadir)/dbus-1/interfaces
+xml_DATA = $(XMLS)
+
+################################################################################
 # LocationManager headers
 ################################################################################
 
 lmincdir = $(includedir)/LocationManager
 lminc_HEADERS = \
+  include/LocationManager-names.h \
   include/LocationManager-version.h \
   include/LocationManager.h \
   $(NULL)
 
+include/LocationManager-names.h: $(XMLS) $(top_srcdir)/include/header-generator.xsl
+	$(AM_V_GEN) $(XSLTPROC) $(top_srcdir)/include/header-generator.xsl $(top_srcdir)/introspection/all.xml > $@
+
+CLEANFILES += \
+  include/LocationManager-names.h
+
 EXTRA_DIST += \
+  include/header-generator.xsl \
   include/LocationManager-version.h.in \
   $(NULL)
 

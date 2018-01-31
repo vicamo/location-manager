@@ -27,6 +27,9 @@
 
 #define __LOCATION_MANAGER_H_INSIDE__
 
+/* Public header with DBus Interface, Method, Signal and Property names */
+#include <LocationManager-names.h>
+
 /* Public header with version info */
 #include <LocationManager-version.h>
 
