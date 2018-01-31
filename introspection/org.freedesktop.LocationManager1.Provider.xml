@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!--
+ LocationManager 1.0 Interface Specification
+
+   Copyright (C) 2008 Novell, Inc.
+   Copyright (C) 2008-2013 Red Hat, Inc.
+   Copyright (C) 2011-2013 Google, Inc.
+   Copyright (C) 2011-2013 Lanedo GmbH
+-->
+
+<node name="/" xmlns:doc="http://www.freedesktop.org/dbus/1.0/doc.dtd">
+
+  <!--
+      org.freedesktop.LocationManager1.Provider:
+      @short_description: The LocationManager Provider interface.
+
+      The Provider interface controls the status and actions in a given provider
+      object.
+  -->
+  <interface name="org.freedesktop.LocationManager1.Provider">
+
+    <!--
+        Enable:
+        @enable: %TRUE to enable the provider and %FALSE to disable it.
+
+        Enable or disable the provider.
+
+        When enabled, the provider's radio is powered on and data sessions, voice
+        calls, location services, and Short Message Service may be available.
+
+        When disabled, the provider enters low-power state and no network-related
+        operations are available.
+    -->
+    <method name="Enable">
+      <arg name="enable" type="b" direction="in" />
+    </method>
+
+    <!--
+        StateChanged:
+        @old: A <link linkend="LMProviderState">LMProviderState</link> value, specifying the new state.
+        @new: A <link linkend="LMProviderState">LMProviderState</link> value, specifying the new state.
+        @reason: A <link linkend="LMProviderStateChangeReason">LMProviderStateChangeReason</link> value, specifying the reason for this state change.
+
+        The provider's state (see #org.freedesktop.LocationManager1.Provider:State) changed.
+    -->
+    <signal name="StateChanged">
+      <arg name="old"    type="i" />
+      <arg name="new"    type="i" />
+      <arg name="reason" type="u" />
+    </signal>
+
+    <!--
+        Manufacturer:
+
+        The equipment manufacturer, as reported by the provider.
+    -->
+    <property name="Manufacturer" type="s" access="read" />
+
+    <!--
+        Model:
+
+        The equipment model, as reported by the provider.
+    -->
+    <property name="Model" type="s" access="read" />
+
+    <!--
+        Revision:
+
+        The revision identification of the software, as reported by the provider.
+    -->
+    <property name="Revision" type="s" access="read" />
+
+    <!--
+        HardwareRevision:
+
+        The revision identification of the hardware, as reported by the provider.
+    -->
+    <property name="HardwareRevision" type="s" access="read" />
+
+    <!--
+        DeviceIdentifier:
+
+        A best-effort device identifier based on various device information like
+        model name, firmware revision, USB/PCI/PCMCIA IDs, and other properties.
+
+        This ID is not guaranteed to be unique and may be shared between
+        identical devices with the same firmware, but is intended to be "unique
+        enough" for use as a casual device identifier for various user
+        experience operations.
+
+        This is not the device's IMEI or ESN since those may not be available
+        before unlocking the device via a PIN.
+    -->
+    <property name="DeviceIdentifier" type="s" access="read" />
+
+    <!--
+        Device:
+
+        The physical provider device reference (ie, USB, PCI, PCMCIA device), which
+        may be dependent upon the operating system.
+
+        In Linux for example, this points to a sysfs path of the usb_device
+        object.
+
+        This value may also be set by the user using the LM_ID_PHYSDEV_UID udev
+        tag (e.g. binding the tag to a specific sysfs path).
+    -->
+    <property name="Device" type="s" access="read" />
+
+    <!--
+        Drivers:
+
+        The Operating System device drivers handling communication with the provider
+        hardware.
+    -->
+    <property name="Drivers" type="as" access="read" />
+
+    <!--
+        Plugin:
+
+        The name of the plugin handling this provider.
+    -->
+    <property name="Plugin" type="s" access="read" />
+
+    <!--
+        State:
+
+        Overall state of the provider, given as a
+        <link linkend="LMProviderState">LMProviderState</link> value.
+
+        If the device's state cannot be determined,
+        <link linkend="LM-PROVIDER-STATE-UNKNOWN:CAPS"><constant>LM_PROVIDER_STATE_UNKNOWN</constant></link>
+        will be reported.
+    -->
+    <property name="State" type="i" access="read" />
+
+    <!--
+        StateFailedReason:
+
+        Error specifying why the provider is in
+	<link linkend="LM-PROVIDER-STATE-FAILED:CAPS"><constant>LM_PROVIDER_STATE_FAILED</constant></link>
+	state, given as a
+	<link linkend="LMProviderStateFailedReason">LMProviderStateFailedReason</link> value.
+    -->
+    <property name="StateFailedReason" type="u" access="read" />
+
+  </interface>
+</node>

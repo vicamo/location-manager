@@ -1,4 +1,8 @@
 <tp:spec
    xmlns:tp="http://telepathy.freedesktop.org/wiki/DbusSpec#extensions-v0"
    xmlns:xi="http://www.w3.org/2001/XInclude">
+
+   <xi:include href="org.freedesktop.LocationManager1.xml"/>
+   <xi:include href="org.freedesktop.LocationManager1.Provider.xml"/>
+
 </tp:spec>
